@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Convert a PlantUML class diagram into a Software Ideas Modeler .simp project.
 
-The project layout follows the version-10 single-file schema used by
-Software Ideas Modeler (the same shape as its ApplicationStore example):
+The project layout follows the single-file schema Software Ideas Modeler
+writes (project version 13.96, which 15.x still opens):
 model elements live in the project repository, and each diagram places
 those shared elements. Diagrams are split by subject so the project opens
 as a set of readable views instead of one tangled canvas.
@@ -232,12 +232,12 @@ def classify_arrow(arrow: str, label: str) -> tuple[str, str, str, str, str, str
     elif arrow.endswith("o"):
         end_aggregation = "aggregation"
 
-    start_nav = "navigable" if arrow.startswith("<") else ""
-    end_nav = "navigable" if arrow.endswith(">") else ""
+    start_nav = "yes" if arrow.startswith("<") else ""
+    end_nav = "yes" if arrow.endswith(">") else ""
     if label_right and not end_nav and not start_nav:
-        end_nav = "navigable"
+        end_nav = "yes"
     if label_left and not start_nav and not end_nav:
-        start_nav = "navigable"
+        start_nav = "yes"
 
     kind = "dependency" if ".." in arrow else "association"
     return label, kind, start_aggregation, end_aggregation, start_nav, end_nav
@@ -531,7 +531,7 @@ def build_project(model: Model, stamp: str, creator: str) -> ET.Element:
         note.element_id = sid("di", f"note:{index}:{note.target}")
         note.connector_id = sid("di", f"note-link:{index}:{note.target}")
 
-    root = ET.Element("sim-project", {"version": "10", "multi-file": "no"})
+    root = ET.Element("sim-project", {"version": "13.96", "multi-file": "no"})
     meta = sub_element(root, "meta")
     sub_element(meta, "name", model.title)
     sub_element(meta, "authors", "")
