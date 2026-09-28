@@ -1,0 +1,205 @@
+
+🌿 The Harmony Garden
+
+A Life‑Skills Adventure Game for Children (Grades 1–6)
+Teaching Conflict Resolution, Boundaries, Teamwork, Emotional Literacy, and Mindfulness
+1. Overview
+
+The Harmony Garden is an educational adventure game designed to teach essential interpersonal and emotional skills that many children — and adults — struggle with. Through interactive storytelling, cooperative puzzles, and mindfulness activities, players learn how to navigate conflict, set boundaries, understand emotions, and communicate effectively.
+
+The game is structured around four interconnected learning zones:
+
+    Conflict Resolution Grove
+    Feelings Forest
+    Mindful Mountain
+    Teamwork Trials
+
+Each zone focuses on a different life skill, creating a holistic learning experience while addressing a huge gap in childhood education.
+2. Educational Goals
+Conflict Resolution Skills
+
+    Understanding perspectives
+    Choosing healthy responses
+    Identifying triggers
+    Practicing calm problem‑solving
+
+Boundary‑Setting Skills
+
+    Saying “no” respectfully
+    Recognizing personal space
+    Emotional boundaries (“I need a break”)
+    Digital boundaries (privacy, safety)
+
+Teamwork & Communication
+
+    Sharing responsibility
+    Asking for help
+    Listening actively
+    Compromising
+
+Emotional Literacy
+
+    Naming emotions
+    Recognizing body cues
+    Understanding others’ feelings
+    Responding with empathy
+
+Mindfulness & Self‑Regulation
+
+    Breathing exercises
+    Grounding techniques
+    Visualization
+    “Pause before reacting” habits
+
+3. Game Structure
+3.1 Conflict Resolution Grove
+
+Players encounter small, relatable conflicts:
+
+    Someone cuts in line
+    A friend takes a toy
+    Misunderstood tone
+    Group disagreement
+    Feeling excluded
+
+3.2 Feelings Forest
+
+A magical forest where each creature represents an emotion:
+
+    Worrying Willow – anxiety
+    Angry Ash – frustration
+    Lonely Lichen – isolation
+    Excited Ember – enthusiasm
+    Sad Sprout – sadness
+
+3.3 Mindful Mountain
+
+A calming zone teaching:
+
+    Deep breathing
+    Grounding (5‑4‑3‑2‑1)
+    Visualization
+    Positive self talk
+    “Pause before reacting” minigames
+
+3.4 Teamwork Trials
+
+Cooperative puzzles requiring:
+
+    Communication
+    Shared decision-making
+    Delegation
+    Trust
+
+4. Gameplay Loop
+
+    A conflict arises in the garden
+    The player visits Feelings Forest to understand emotions
+    They go to Mindful Mountain to regulate
+    They return to resolve the conflict using healthy communication
+    They complete a Teamwork Trial to restore harmony
+
+5. Optional Add-Ons
+
+Teacher Dashboard
+Tracks which skills students practice.
+
+Adaptive Difficulty
+More complex conflicts for older grades.
+
+Voice Acting or Narration
+Accessibility + engagement.
+
+Cultural sensitivity mode
+Different communication norms.
+
+6. Technical Scope
+
+    2D or 2.5D Unity or Godot game
+    Branching dialogue system
+    Emotion‑based NPC behavior
+    Save system
+    Teacher dashboard (optional)
+    Analytics for skill usage (optional)
+
+7. Target Audience
+
+    Grades 1–6
+    Teachers
+    School counselors
+    Parents
+    Youth mental‑health organizations
+
+8. Why This Project Matters
+
+Children rarely receive structured education in:
+
+    Conflict resolution
+    Boundaries
+    Emotional literacy
+    Communication
+    Mindfulness
+
+These skills shape:
+
+    Friendships
+    Classroom behavior
+    Self‑esteem
+    Long‑term mental health
+
+The Harmony Garden fills a real educational gap with warmth, safety, and creativity.
+Why Perfect for Capstone
+
+Real‑world value
+Teachers love SEL (social‑emotional learning) tools.
+Parents love them too.
+Schools often lack resources to teach these skills.
+
+Clear client
+You can partner with:
+
+    A local elementary school
+    A school counselor
+    A child psychologist
+    A nonprofit focused on youth mental health
+
+Achievable scope
+You can build:
+
+    3–5 conflict scenarios
+    3–5 emotions in Feelings Forest
+    2–3 Teamwork Trials
+    2–3 mindfulness minigames
+
+Strong technical depth
+You can include:
+
+    Dialogue trees
+    Emotion‑based AI
+    Save system
+    Teacher dashboard
+    Analytics (what skills kids practice most)
+
+Game Development in Capstone
+When Games Are Approved
+
+Games must have:
+
+    A real client
+    A real problem
+    Practical value
+    Achievable scope
+
+Approved Game Types
+
+    Educational games
+    Training simulations
+    Gamified wellness apps
+    Indie prototypes with a real client
+
+Rejected Game Types
+
+    Pure entertainment with no client
+    Large RPGs with no real-world purpose
+    Clones of existing games
+
