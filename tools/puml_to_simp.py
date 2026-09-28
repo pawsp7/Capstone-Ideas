@@ -2,10 +2,10 @@
 """Convert a PlantUML class diagram into a Software Ideas Modeler .simp project.
 
 The project layout follows the single-file schema Software Ideas Modeler
-writes (project version 13.96, which 15.x still opens):
-model elements live in the project repository, and each diagram places
-those shared elements. Diagrams are split by subject so the project opens
-as a set of readable views instead of one tangled canvas.
+15.20 opens (project version 15.1, which skips the older compatibility
+rewrites). Model elements live in the project repository, and each diagram
+places those shared elements. Diagrams are split by subject so the project
+opens as a set of readable views instead of one tangled canvas.
 """
 
 from __future__ import annotations
@@ -509,9 +509,19 @@ def sub_element(parent: ET.Element, tag: str, text: str | None = None, **attrs: 
     return node
 
 
-def add_role(parent: ET.Element, tag: str, multiplicity: str | None, navigability: str, aggregation: str) -> None:
+def add_role(
+    parent: ET.Element,
+    tag: str,
+    multiplicity: str | None,
+    navigability: str,
+    aggregation: str,
+    key: str,
+) -> None:
+    # 15.20 saves the role id as "id" and loads it from "uid".
+    role_uid = "umlar-" + hashlib.md5(key.encode("utf-8")).hexdigest()
     attrs = {
-        "id": "",
+        "id": role_uid,
+        "uid": role_uid,
         "name": "",
         "navigability": navigability,
         "association-type": aggregation,
@@ -531,7 +541,7 @@ def build_project(model: Model, stamp: str, creator: str) -> ET.Element:
         note.element_id = sid("di", f"note:{index}:{note.target}")
         note.connector_id = sid("di", f"note-link:{index}:{note.target}")
 
-    root = ET.Element("sim-project", {"version": "13.96", "multi-file": "no"})
+    root = ET.Element("sim-project", {"version": "15.1", "multi-file": "no"})
     meta = sub_element(root, "meta")
     sub_element(meta, "name", model.title)
     sub_element(meta, "authors", "")
@@ -542,6 +552,7 @@ def build_project(model: Model, stamp: str, creator: str) -> ET.Element:
     sub_element(root, "alias-groups")
     add_management(root, creator)
     sub_element(root, "glossary")
+    add_style_set(root)
     add_types(root, model)
     sub_element(root, "filters")
     sub_element(root, "macros")
@@ -638,12 +649,52 @@ def add_management(root: ET.Element, creator: str) -> None:
     sub_element(management, "to-dos")
 
 
+def add_style_set(root: ET.Element) -> None:
+    """Solid default style. The built-in set uses smooth shadows, which the
+    15.20 GDI renderer can kill the process on while painting the overview."""
+    style_set = sub_element(root, "style-set", version="4.0", name="Solid")
+    definition = sub_element(sub_element(style_set, "default-style"), "style-definition")
+    definition.set("style-name", "Default")
+    definition.set("shadow-type", "flat")
+    definition.set("shadow-visible", "false")
+    definition.set("wrap-name-text", "true")
+    definition.set("wrap-other-text", "true")
+    definition.set("padding", "2")
+    definition.set("margin", "0")
+    for kind, font, align in (
+        ("name", "Segoe UI;11.25;B", None),
+        ("part-header", "Verdana;9;I", None),
+        ("text", "Segoe UI;9.75;", "left"),
+        ("tagged-value", "Segoe UI;9.75;", None),
+        ("stereotype", "Segoe UI;9;I", None),
+    ):
+        attrs = {"type": kind, "use-defaults": "false", "color": "#FF555555", "font": font}
+        if align:
+            attrs["horizontal-alignment"] = align
+        sub_element(definition, "text-style", **attrs)
+    sub_element(definition, "background", type="solid", colors="#FFF2F2F2,#FFF2F2F2")
+    sub_element(definition, "border", color="#FF555555", width="2", **{"dash-style": "Solid"})
+    sub_element(definition, "label-connector", color="#80000000", width="1", **{"dash-style": "Dash"})
+
+
 def add_types(root: ET.Element, model: Model) -> None:
     types = sub_element(root, "types")
     type_sets = sub_element(types, "type-sets")
     sub_element(type_sets, "type-set", file="UmlTypes.xml")
     custom = sub_element(types, "custom-types")
+    referenced: set[str] = set()
+    extras: set[str] = set()
     for element in model.elements.values():
+        for member in element.members:
+            if member.type_name:
+                (referenced if member.type_name in model.elements else extras).add(member.type_name)
+            for _name, param_type in member.parameters:
+                if param_type:
+                    (referenced if param_type in model.elements else extras).add(param_type)
+    for name in model.order:
+        if name not in referenced:
+            continue
+        element = model.elements[name]
         sub_element(
             custom,
             "type",
@@ -654,16 +705,8 @@ def add_types(root: ET.Element, model: Model) -> None:
             nullable="false",
             **{"class-ref": element.element_id},
         )
-    used: set[str] = set()
-    for element in model.elements.values():
-        for member in element.members:
-            if member.type_name:
-                used.add(member.type_name)
-            for _name, param_type in member.parameters:
-                if param_type:
-                    used.add(param_type)
-    for type_name in sorted(used):
-        if type_name in model.elements or type_name in BUILTIN_TYPES:
+    for type_name in sorted(extras):
+        if type_name in BUILTIN_TYPES:
             continue
         sub_element(
             custom,
@@ -817,8 +860,22 @@ def add_association_item(
             "to": model.elements[relation.right].element_id,
         },
     )
-    add_role(link, "start-role", relation.left_mult, relation.start_navigability, relation.start_aggregation)
-    add_role(link, "end-role", relation.right_mult, relation.end_navigability, relation.end_aggregation)
+    add_role(
+        link,
+        "start-role",
+        relation.left_mult,
+        relation.start_navigability,
+        relation.start_aggregation,
+        f"{relation.element_id}:start",
+    )
+    add_role(
+        link,
+        "end-role",
+        relation.right_mult,
+        relation.end_navigability,
+        relation.end_aggregation,
+        f"{relation.element_id}:end",
+    )
 
 
 def add_dependency_item(
@@ -950,6 +1007,7 @@ def add_diagram(
     sub_element(style, "background-color", index="1", color="#FFFFFFFF")
     sub_element(style, "background-color", index="2", color="#FFFFFFFF")
     sub_element(style, "background-type", type="solid")
+    sub_element(diagram, "size", width="1", height="1", unit="px", type="ExpandableAllDirections")
     meta = sub_element(diagram, "meta")
     authors = sub_element(meta, "authors")
     sub_element(authors, "author", " ")
@@ -1075,7 +1133,8 @@ def add_connector(
     )
     x1, y1 = points[0]
     x2, y2 = points[-1]
-    line_style = "oblique" if len(points) <= 2 else "perpendicular"
+    # Keep every connector oblique. 15.20 repairs "perpendicular" lines on
+    # open, and a non-orthogonal polyline in that style takes down the viewer.
     layout = sub_element(
         shape,
         "layout",
@@ -1084,9 +1143,9 @@ def add_connector(
             "end-role-position": "18,-14",
             "start-multiplicity-position": "16,-16",
             "end-multiplicity-position": "16,16",
-            "line-style": line_style,
-            "lock-start-point": "true",
-            "lock-end-point": "true",
+            "line-style": "oblique",
+            "lock-start-point": "false",
+            "lock-end-point": "false",
             "lock-to-fields": "false",
             "auto-path": "",
             "x1": str(x1),
