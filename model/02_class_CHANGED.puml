@@ -1,0 +1,184 @@
+@startuml Class_Apocrypha
+' CPSY 301 - Apocrypha Bookstore - Class Diagram (domain + UI)
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+enum AccountStatus {
+  NEW
+  ACTIVE
+  TEMP_BLOCKED
+  BANNED
+}
+
+enum OrderStatus {
+  NEW
+  HOLD
+  SHIPPED
+  DELIVERED
+  CLOSED
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  DECLINED
+}
+
+class Customer {
+  +loginName : String <<PK>>
+  +address : String
+  +phone : String
+  +email : String
+  +register()
+  +search()
+}
+
+class Account {
+  +accountId : String
+  +billingAddress : String
+  +dateOpened : Date
+  +dateClosed : Date
+  +status : AccountStatus
+  +activate()
+  +block()
+}
+
+class ShoppingCart {
+  +cartId : String
+  +dateCreated : Date
+  +addItem()
+  +removeItem()
+  +checkout()
+}
+
+class Order {
+  +orderId : String
+  +dateOrdered : Date
+  +dateShipped : Date
+  +status : OrderStatus
+  +shippingAddress : String
+  +total : Money
+  +calculateTotal()
+  +placeOnHold()
+  +ship()
+  +requestReturn() : Return
+}
+
+class OrderLine {
+  +lineId : String
+  +itemNameSnapshot : String
+  +unitPrice : Money
+  +description : String
+  +picturePath : String
+}
+
+class Item {
+  +itemId : String <<PK>>
+  +author : String
+  +title : String
+  +yearPublished : Integer
+  +genre : String
+  +condition : String
+  +edition : String
+  +publisher : String
+  +notes : String
+  +price : Money
+  +coverImagePath : String
+  +isAvailable : Boolean
+}
+
+class Payment {
+  +paymentId : String
+  +amount : Money
+  +date : Date
+  +method : String
+  +status : PaymentStatus
+  +approve()
+}
+
+class Receipt {
+  +receiptId : String
+  +date : Date
+  +total : Money
+  +isInStore : Boolean
+}
+
+class ImageRepository {
+  +store()
+  +retrieve()
+}
+
+class Return {
+  +returnId : String
+  +returnDate : Date
+  +daysSinceDelivery : Integer
+  +refundPct : Integer
+  +refundAmount : Money
+  +calculateRefund() : Money
+  +validateReceipt() : Boolean
+}
+
+class EmailValidator <<external>> {
+  +sendValidationLink()
+  +validate() : Boolean
+}
+
+class PaymentProcessor <<external>> {
+  +processPayment(amount : Money) : Boolean
+}
+
+class Inventory {
+  +addItem()
+  +removeItem()
+}
+
+' --- UI classes (boundary) ---
+class RegistrationUI
+class SearchUI
+class CartUI
+class CheckoutUI
+class InventoryUI
+class ReturnUI
+
+' --- relationships ---
+Customer "1" -- "1" Account : owns >
+Account "1" -- "1" ShoppingCart : owns active >
+Account "1" -- "*" Order : places >
+ShoppingCart "1" -- "*" Item : holds/reserves >
+Order "1" *-- "*" OrderLine : contains >
+OrderLine "*" --> "1" Item : refers to
+Order "1" -- "1" Payment : paid by >
+Payment --> PaymentProcessor : processed by >
+Order "1" -- "0..1" Receipt : proves >
+Order "1" -- "0..*" Return : has >
+Return ..> Receipt : requires for in-store >
+Account ..> EmailValidator : validated by >
+Inventory "1" -- "*" Item : manages >
+Item "1" -- "1" ImageRepository : scanned cover >
+Account --> AccountStatus
+Order --> OrderStatus
+Payment --> PaymentStatus
+
+RegistrationUI ..> Customer : manages
+RegistrationUI ..> EmailValidator : uses
+SearchUI ..> Item : browses
+CartUI ..> ShoppingCart : manages
+CheckoutUI ..> Order : manages
+InventoryUI ..> Inventory : manages
+ReturnUI ..> Return : processes
+
+note bottom of OrderLine
+  itemNameSnapshot (= Item.title)
+  + unitPrice snapshot preserves
+  history if Item price
+  later changes (Gap Q1)
+end note
+
+note bottom of Return
+  Refund policy: <=20d = 100%,
+  30-45d = 75%, >45d = 0%.
+  21-29d TBD with Cecil.
+  Online: Order is proof.
+  In-store: Receipt required.
+end note
+@enduml
