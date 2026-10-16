@@ -1,0 +1,194 @@
+@startuml Harmony_Garden
+' Harmony Garden class diagram.
+' Classes, fields, and relationships are taken from the attached domain model.
+
+enum Role {
+  STUDENT
+  TEACHER
+  COUNSELOR
+  ADMIN
+}
+
+enum SkillType {
+  CONFLICT_RESOLUTION
+  BOUNDARIES
+  TEAMWORK
+  EMOTIONAL_LITERACY
+  MINDFULNESS
+}
+
+enum AttemptStatus {
+  STARTED
+  COMPLETED
+  ABANDONED
+}
+
+enum EmotionType {
+  ANXIETY
+  FRUSTRATION
+  LONELINESS
+  ENTHUSIASM
+  SADNESS
+}
+
+class Teacher {
+  +teacherId : String <<PK>>
+  +alias : String
+  +role : Role
+  +createClassroom()
+  +viewDashboard()
+}
+
+class Student {
+  +alias : String <<PK>>
+  +classroomId : String
+  +avatarRef : String
+  +startScenario()
+  +checkInEmotion()
+}
+
+class Classroom {
+  +classroomId : String <<PK>>
+  +code : String
+  +gradeBand : String
+  +joinByCode()
+}
+
+class Scenario {
+  +scenarioId : String <<PK>>
+  +title : String
+  +skillFocus : SkillType
+  +minGrade : Integer
+  +maxGrade : Integer
+  +getEntryNode()
+}
+
+class MindfulnessExercise {
+  +exerciseId : String <<PK>>
+  +title : String
+  +technique : String
+  +durationSec : Integer
+  +complete()
+}
+
+class TeamworkChallenge {
+  +challengeId : String <<PK>>
+  +title : String
+  +teamCode : String
+  +complete()
+}
+
+class ScenarioNode {
+  +nodeId : String <<PK>>
+  +scenarioId : String
+  +prompt : String
+  +isTerminal : Boolean
+  +getChoices()
+}
+
+class Choice {
+  +choiceId : String <<PK>>
+  +nodeId : String
+  +label : String
+  +nextNodeId : String
+  +apply()
+}
+
+class Attempt {
+  +attemptId : String <<PK>>
+  +studentAlias : String
+  +scenarioId : String
+  +exerciseId : String
+  +challengeId : String
+  +status : AttemptStatus
+  +startedAt : Date
+  +completedAt : Date
+  +complete()
+  +abandon()
+}
+
+class EmotionCheckin {
+  +checkInId : String <<PK>>
+  +studentAlias : String
+  +emotionId : String
+  +intensity : Integer
+  +createdAt : Date
+  +record()
+}
+
+class Emotion {
+  +emotionId : String <<PK>>
+  +name : EmotionType
+  +creature : String
+  +bodyCues : String
+  +describe()
+}
+
+class DashboardReport {
+  +reportId : String
+  +generate()
+}
+
+class SupabaseDB <<external>> {
+  +store()
+  +retrieve()
+}
+
+class SupabaseAuth <<external>> {
+  +signInWithCode()
+  +getRole() : Role
+}
+
+class TeacherDashboardUI
+class StudentAppUI
+class RosterUI
+
+MindfulnessExercise ..> Scenario : plays
+TeamworkChallenge ..> Scenario : plays
+Scenario "1" --> "*" ScenarioNode : contains
+Scenario --> SkillType
+ScenarioNode "1" --> "*" Choice : offers
+Scenario "1" --> "*" Attempt : attempted by
+MindfulnessExercise "1" --> "*" Attempt : attempted by
+TeamworkChallenge "1" --> "*" Attempt : attempted by
+ScenarioNode --> "*" Attempt : practiced by
+
+Teacher "1" --> "*" Student
+Teacher --> Role
+Student "*" --> "1" Classroom : enrolls
+Teacher ..> Classroom : owns
+RosterUI ..> Classroom : manages
+Teacher ..> SupabaseAuth : authenticated by
+Classroom ..> SupabaseAuth : authenticated by
+Teacher ..> SupabaseDB
+
+Student ..> Attempt : captures
+Student ..> EmotionCheckin : records
+Attempt ..> DashboardReport : makes
+DashboardReport ..> Attempt : aggregates
+DashboardReport ..> EmotionCheckin : aggregates
+Attempt --> AttemptStatus
+EmotionCheckin --> "1" Emotion : refers to
+Emotion --> EmotionType
+
+TeacherDashboardUI ..> DashboardReport : views
+StudentAppUI ..> DashboardReport : views
+StudentAppUI ..> Student : manages
+
+note bottom of Student
+  alias is PK, no real names.
+  RLS: own rows only (NFR)
+end note
+
+note bottom of Attempt
+  Exactly one target FK set:
+  scenarioId OR exerciseId
+  OR challengeId (Gap A2)
+end note
+
+note bottom of Classroom
+  code unique join code.
+  Teacher owns, counselor
+  read-only (Gap A1 A5)
+end note
+@enduml
