@@ -747,6 +747,9 @@ def add_class_item(parent: ET.Element, element: Element, model: Model, cid: str,
                 visibility=member.visibility,
                 **({"is-id": "true"} if member.stereotype == "PK" else {}),
             )
+            if member.stereotype:
+                stereotypes = sub_element(attr, "stereotypes")
+                sub_element(stereotypes, "stereotype", name=member.stereotype)
             sub_element(attr, "style", **{"class": "default"})
     if operations:
         op_parent = sub_element(node, "operations")
