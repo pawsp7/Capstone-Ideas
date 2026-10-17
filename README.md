@@ -13,3 +13,26 @@ The game is structured around four interconnected learning zones:
     Teamwork Trials
 
 Each zone focuses on a different life skill, creating a holistic learning experience while addressing a huge gap in childhood education.
+
+## Play the garden
+
+The playable app lives in `web/`. It is a night-garden adventure for grades 1–6: cream garden spirits, leaf green, bark brown, and butterfly blue on a black field. Bramble, the guide, walks a player through one ripple at a time — a grove story, a feeling creature, a calm practice, a kinder repair, then a teamwork trial.
+
+```bash
+cd web
+npm install
+npm test
+npm run dev
+```
+
+Open the local address Vite prints. Students pick a made-up garden name. Leave the join code empty for a solo garden, or enter a class code such as `FERN-2-17`. Teachers plant a class from “I am a garden keeper” and can preview a filled sample desk. Sounds start off.
+
+Progress stays in this browser. A student can copy a blossom slip from the journal, and a teacher can download a class file, to carry a garden to another device. There is no leaderboard and no real-name roster.
+
+The domain follows `model/harmony_garden.puml`. `SupabaseDB.store` / `retrieve` and `SupabaseAuth.signInWithCode` / `getRole` are the browser save and the keeper, counselor, and join codes. Students only see their own rows. A counselor can view a class and cannot change the roster.
+
+## Publish
+
+GitHub Pages: merge this app to `main`, then in the repository settings set Pages to **GitHub Actions**. The workflow `.github/workflows/pages.yml` tests, builds `web/`, and deploys. On a private repository, Pages also has to be enabled for private sites.
+
+Vercel: import the repository. `vercel.json` installs and builds `web/` and publishes `web/dist`. The site can also use `web` as the project root and the existing `npm run build` script.
