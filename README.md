@@ -35,4 +35,4 @@ The domain follows `model/harmony_garden.puml`. `SupabaseDB.store` / `retrieve` 
 
 GitHub Pages: merge this app to `main`, then in the repository settings set Pages to **GitHub Actions**. The workflow `.github/workflows/pages.yml` tests, builds `web/`, and deploys. On a private repository, Pages also has to be enabled for private sites.
 
-Vercel: import the repository. `vercel.json` installs and builds `web/` and publishes `web/dist`. The site can also use `web` as the project root and the existing `npm run build` script.
+Vercel: import the repository and set the Root Directory to `web`. The app is a Vite project, so the build settings are install `npm ci`, build `npm run build`, and output `dist`. Those paths are relative to `web/`. `web/vercel.json` sets them. A root-level install command that also contains `--prefix web` looks for `web/web` and the install stops before the app compiles.
