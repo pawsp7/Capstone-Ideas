@@ -1011,6 +1011,746 @@ const photoNodes = [
   ),
 ];
 
+const seedNodes = [
+  node(
+    "last-seed",
+    "ls-start",
+    "Bramble",
+    "One sunflower packet is left on the seed table. You and Pip reach for it at the same time. Your fingers bump.",
+    [
+      {
+        label: "Can we split the seeds? You plant half, and I plant half.",
+        next: "ls-split",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "I saw it first!", next: "ls-grab", harmony: -1 },
+      { label: "Let go and say nothing. Your tummy stays tight.", next: "ls-quiet" },
+      {
+        label: "I feel rushy. I want some seeds, and I want you to have some too.",
+        next: "ls-feel",
+        skills: [S.CONFLICT_RESOLUTION, S.EMOTIONAL_LITERACY],
+        harmony: 2,
+        minGrade: 3,
+      },
+      {
+        label: "Take a breath, then offer to share the packet.",
+        next: "ls-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-split",
+    "Pip",
+    '"Yes. I was scared there would not be enough for my row." Pip sets the packet down between you.',
+    [
+      {
+        label: "Count them together and make two even piles.",
+        next: "ls-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "I get the bigger pile.", next: "ls-uneven", harmony: -1 },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-uneven",
+    "Pip",
+    '"That does not feel like half." Pip\'s ears droop over the smaller pile.',
+    [
+      {
+        label: "You're right. Let's make the piles even.",
+        next: "ls-bloom",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Keep the big pile.", next: "ls-tangle" },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-grab",
+    "Pip",
+    '"Hey. That packet might have been for both of us." Pip\'s hand is still open.',
+    [
+      {
+        label: "Sorry I grabbed. Let's open it and share.",
+        next: "ls-split",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "They're mine now.", next: "ls-tangle" },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-quiet",
+    "Bramble",
+    "Pip takes the packet and smiles, not unkindly. You have no seeds, and the tight feeling stays. Quiet hid what you wanted.",
+    [
+      {
+        label: "Pip, I wanted some too. Can we still share?",
+        next: "ls-split",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 1,
+      },
+      {
+        label: "I need a break from this want. I'll ask a keeper for another packet later.",
+        next: "ls-soft",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      { label: "Walk away mad.", next: "ls-tangle" },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-feel",
+    "Pip",
+    '"I feel rushy too." Pip slows their hands. "What would feel fair?"',
+    [
+      {
+        label: "Let's count out loud so we both see the same number.",
+        next: "ls-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+      { label: "Forget it.", next: "ls-quiet" },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-calm",
+    "Bramble",
+    "You feel your feet on the path. Your voice comes out steady. The packet is still on the table.",
+    [
+      {
+        label: "There is one packet. I want to split it with you.",
+        next: "ls-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "last-seed",
+    "ls-bloom",
+    "Bramble",
+    "Two small piles of sunflower seeds wait in the sun. You asked for enough, and you left enough. A fair share can feed two rows.",
+    [],
+    "bloom",
+  ),
+  node(
+    "last-seed",
+    "ls-soft",
+    "Bramble",
+    "You named the want and chose a pause. A keeper can help you find seeds without a fight. The garden keeps a place for your row.",
+    [],
+    "repair",
+  ),
+  node(
+    "last-seed",
+    "ls-tangle",
+    "Bramble",
+    "Somebody has the seeds, and the air feels scratchy. That can happen when there is only one packet. You can walk this path again and try a sharing sentence.",
+    [],
+    "tangle",
+  ),
+];
+
+const noiseNodes = [
+  node(
+    "loud-game",
+    "lg-start",
+    "Bramble",
+    "Lumen and two friends clap a fast rhythm game beside the plant labels. The sound fills your ears. You wanted to read the labels.",
+    [
+      {
+        label: "The clapping is too big for my ears. Can we make it softer?",
+        next: "lg-ask",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Cover your ears and shout, \"Stop!\"", next: "lg-shout", harmony: -1 },
+      { label: "Move away and tell no one why.", next: "lg-leave" },
+      {
+        label: "I like your game. I also need a quieter spot for a few minutes.",
+        next: "lg-both",
+        skills: [S.BOUNDARIES, S.EMOTIONAL_LITERACY],
+        harmony: 2,
+        minGrade: 3,
+      },
+      {
+        label: "Feel your feet, then ask for a smaller sound.",
+        next: "lg-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-ask",
+    "Lumen",
+    '"I didn\'t know it was too big. We can clap small." Lumen holds their hands lower.',
+    [
+      {
+        label: "Thank you. Small claps work for me.",
+        next: "lg-bloom",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "You should have known.", next: "lg-sharp", harmony: -1 },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-sharp",
+    "Bramble",
+    "Lumen's rhythm stops. They step back. The quiet you needed is here, and so is a worried friend.",
+    [
+      {
+        label: "I was overloaded, and I still want to be kind. Softer claps, please.",
+        next: "lg-bloom",
+        skills: [S.BOUNDARIES, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Walk off.", next: "lg-tangle" },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-shout",
+    "Lumen",
+    '"That scared me." Lumen\'s hands freeze in the air. The game is quiet now, but everybody is startled.',
+    [
+      {
+        label: "Sorry I yelled. My ears hurt. Can the game be quieter?",
+        next: "lg-ask",
+        skills: [S.CONFLICT_RESOLUTION, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Keep shouting.", next: "lg-tangle" },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-leave",
+    "Bramble",
+    "The ferns are quieter. Leaving can be a boundary. Your friends still think you disappeared for no reason.",
+    [
+      {
+        label: "Go back and tell them why you left.",
+        next: "lg-ask",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "Stay in the quiet ferns. I told my body what it needed.",
+        next: "lg-soft",
+        skills: [S.BOUNDARIES, S.MINDFULNESS],
+        harmony: 1,
+      },
+      { label: "Stay and feel mad that nobody noticed.", next: "lg-tangle" },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-both",
+    "Lumen",
+    '"We can play over by the pines. You can keep the labels." Lumen points to a farther patch.',
+    [
+      {
+        label: "That plan fits both of us. Thank you.",
+        next: "lg-bloom",
+        skills: [S.BOUNDARIES, S.TEAMWORK],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-calm",
+    "Bramble",
+    "Your feet find the ground. The clapping is still there, and your voice has room.",
+    [
+      {
+        label: "Lumen, my ears are full. Please make the game smaller, or move it a few steps away.",
+        next: "lg-bloom",
+        skills: [S.BOUNDARIES, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "loud-game",
+    "lg-bloom",
+    "Bramble",
+    "The labels are readable, and the game still exists. You asked for a smaller sound without making Lumen the problem. A boundary can turn the volume down.",
+    [],
+    "bloom",
+  ),
+  node(
+    "loud-game",
+    "lg-soft",
+    "Bramble",
+    "You gave your ears a rest. Next time you can add the sentence, if you want. Stopping was allowed.",
+    [],
+    "repair",
+  ),
+  node(
+    "loud-game",
+    "lg-tangle",
+    "Bramble",
+    "The garden is quieter, and a friendship feels startled. You can try again with a smaller sentence. Your ears were telling the truth.",
+    [],
+    "tangle",
+  ),
+];
+
+const nameNodes = [
+  node(
+    "chosen-name",
+    "cn-start",
+    "Bramble",
+    "Moss grins and calls you by an old joke name. Your face gets hot. You picked your garden name on purpose.",
+    [
+      {
+        label: "Please use my garden name. The joke name doesn't feel good.",
+        next: "cn-ask",
+        skills: [S.EMOTIONAL_LITERACY, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Laugh, even though it stings.", next: "cn-laugh" },
+      { label: "Don't call me that!", next: "cn-snap", harmony: -1 },
+      {
+        label: "Find a garden keeper and practice the sentence first.",
+        next: "cn-keeper",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "I feel embarrassed. The name I chose is the one I want.",
+        next: "cn-feel",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+        minGrade: 5,
+      },
+      {
+        label: "Notice the heat in your face, then ask for your name.",
+        next: "cn-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-ask",
+    "Moss",
+    '"I thought it was only funny. I can stop." Moss waits for the name.',
+    [
+      {
+        label: "Thanks. My garden name is the one to use.",
+        next: "cn-bloom",
+        skills: [S.EMOTIONAL_LITERACY, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "You always do this.", next: "cn-pattern", harmony: -1 },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-pattern",
+    "Moss",
+    '"I don\'t want it to be always. Tell me the name again."',
+    [
+      {
+        label: "Here it is. Please use it from now on.",
+        next: "cn-bloom",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+      { label: "Never mind.", next: "cn-laugh" },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-laugh",
+    "Bramble",
+    "Moss laughs with you. Your face is still hot. A laugh can hide a no.",
+    [
+      {
+        label: "I laughed, but I meant no. Please use my garden name.",
+        next: "cn-ask",
+        skills: [S.EMOTIONAL_LITERACY, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Keep the joke going.", next: "cn-tangle" },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-snap",
+    "Moss",
+    "Moss flinches. The joke stops. They look unsure, not mean.",
+    [
+      {
+        label: "I got hot. I still need my garden name. Sorry I snapped.",
+        next: "cn-bloom",
+        skills: [S.EMOTIONAL_LITERACY, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Don't talk to me.", next: "cn-tangle" },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-keeper",
+    "Bramble",
+    "A keeper listens while you practice. Asking for help is a real step, not a smaller one.",
+    [
+      {
+        label: "Practice, then go tell Moss.",
+        next: "cn-ask",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 1,
+      },
+      {
+        label: "The keeper will help me say it later. I did the first step.",
+        next: "cn-soft",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-feel",
+    "Moss",
+    '"Embarrassed is a big word. I hear it." Moss says your garden name once, carefully.',
+    [
+      {
+        label: "Yes. Embarrassed means I want the name I picked.",
+        next: "cn-bloom",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-calm",
+    "Bramble",
+    "The heat in your face is a signal, not a rule. Your breath makes space for the sentence.",
+    [
+      {
+        label: "Moss, please use my garden name. The joke name makes my face hot.",
+        next: "cn-bloom",
+        skills: [S.EMOTIONAL_LITERACY, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "chosen-name",
+    "cn-bloom",
+    "Bramble",
+    "Your garden name stands where you put it. Moss knows which word to use. Naming a feeling helped the boundary stay kind.",
+    [],
+    "bloom",
+  ),
+  node(
+    "chosen-name",
+    "cn-soft",
+    "Bramble",
+    "You did not have to say it perfectly today. A keeper holds the sentence with you until you are ready.",
+    [],
+    "repair",
+  ),
+  node(
+    "chosen-name",
+    "cn-tangle",
+    "Bramble",
+    "The joke name is still in the air. You can come back and try the clearer ask. Wanting your own name is fair.",
+    [],
+    "tangle",
+  ),
+];
+
+const gateNodes = [
+  node(
+    "gate-watch",
+    "gw-start",
+    "Bramble",
+    "The garden gate needs three jobs: watcher, water-passer, and sign-holder. Pip takes watcher again. Lumen has no job. You wanted a turn.",
+    [
+      {
+        label: "Can we rotate? I want a turn watching, and Lumen needs a job too.",
+        next: "gw-rotate",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "I always get the boring job.", next: "gw-complain", harmony: -1 },
+      { label: "Do all three jobs yourself.", next: "gw-all" },
+      {
+        label: "Let's name the jobs and let each person pick one.",
+        next: "gw-pick",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+        minGrade: 5,
+      },
+      {
+        label: "Pause, then suggest a fair turn.",
+        next: "gw-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-rotate",
+    "Pip",
+    '"I like watching. I didn\'t see that Lumen was left out." Pip looks at the empty sign.',
+    [
+      {
+        label: "You watch first. Then me. Lumen holds the sign.",
+        next: "gw-bloom",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "Then I should watch the whole time.", next: "gw-grab", harmony: -1 },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-grab",
+    "Lumen",
+    "Lumen looks at the ground. The sign still has no holder.",
+    [
+      {
+        label: "Sorry. A turn means we share. Lumen picks next.",
+        next: "gw-bloom",
+        skills: [S.TEAMWORK, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "I'm the leader, so I decide.", next: "gw-tangle" },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-complain",
+    "Pip",
+    '"I didn\'t know you wanted the gate. You can say so."',
+    [
+      {
+        label: "I do want it. Let's trade halfway.",
+        next: "gw-rotate",
+        skills: [S.TEAMWORK],
+        harmony: 1,
+      },
+      { label: "Forget it. I'll just stand here.", next: "gw-tangle" },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-all",
+    "Bramble",
+    "You hold the sign, pass the water, and watch the gate. It looks helpful. Lumen still has nothing to do.",
+    [
+      {
+        label: "I took too much. Who wants the sign?",
+        next: "gw-rotate",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "Keep doing all the jobs.", next: "gw-tangle" },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-pick",
+    "Lumen",
+    '"I want the sign. I can hold it steady." Pip keeps watcher for the first while. A job is left for you.',
+    [
+      {
+        label: "I'll pass the water. Let's say the plan out loud.",
+        next: "gw-bloom",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-calm",
+    "Bramble",
+    "You let the hurry settle. Three jobs are still on the gate, and three gardeners are here.",
+    [
+      {
+        label: "Pip watches first, I pass water, and Lumen holds the sign. Then we switch.",
+        next: "gw-bloom",
+        skills: [S.TEAMWORK, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "gate-watch",
+    "gw-bloom",
+    "Bramble",
+    "The gate has a watcher, a water-passer, and a sign. Nobody is the only helper. Sharing the jobs lets the whole team belong.",
+    [],
+    "bloom",
+  ),
+  node(
+    "gate-watch",
+    "gw-tangle",
+    "Bramble",
+    "The gate is watched, and somebody was left out. You can try a turn-taking sentence next time. A team is more than one busy person.",
+    [],
+    "tangle",
+  ),
+];
+
+const noteNodesForward = [
+  node(
+    "forwarded-note",
+    "fn-start",
+    "Bramble",
+    "Pip holds out a leaf-note. It says something unkind about Robin, who is not here. Pip asks you to pass it to the next bed.",
+    [
+      {
+        label: "I won't pass this. Robin didn't agree, and it's unkind.",
+        next: "fn-stop",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Pass it so you stay in the group.", next: "fn-pass", harmony: -1 },
+      { label: "Laugh and add one more unkind word.", next: "fn-add", harmony: -1 },
+      {
+        label: "This could hurt Robin. I want a keeper to help, and I won't spread it.",
+        next: "fn-adult",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+        minGrade: 5,
+      },
+      {
+        label: "Put the leaf down, breathe, then say you won't send it.",
+        next: "fn-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "forwarded-note",
+    "fn-stop",
+    "Pip",
+    '"Everyone else is passing it." Pip does not let go of the leaf yet.',
+    [
+      {
+        label: "I can be in the group and still not pass a hurtful note.",
+        next: "fn-bloom",
+        skills: [S.BOUNDARIES, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Fine, just this once.", next: "fn-pass", harmony: -1 },
+    ],
+  ),
+  node(
+    "forwarded-note",
+    "fn-pass",
+    "Bramble",
+    "The note moves to the next bed. Robin still does not know. Your hands feel uneasy.",
+    [
+      {
+        label: "Go back to Pip and say you want it to stop.",
+        next: "fn-stop",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "Tell a keeper what the note said.",
+        next: "fn-adult",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Leave it. It's already gone.", next: "fn-tangle" },
+    ],
+  ),
+  node(
+    "forwarded-note",
+    "fn-add",
+    "Pip",
+    "Pip laughs, and the joke gets bigger. Robin is still not in the circle.",
+    [
+      {
+        label: "I added to it, and that was unkind. Let's stop and not send it further.",
+        next: "fn-stop",
+        skills: [S.BOUNDARIES, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Keep going.", next: "fn-tangle" },
+    ],
+  ),
+  node(
+    "forwarded-note",
+    "fn-adult",
+    "Bramble",
+    "A keeper can help Robin without you having to police the whole garden. You still get to choose what you pass on.",
+    [
+      {
+        label: "Tell the keeper the words, and ask them to help Robin.",
+        next: "fn-bloom",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Change your mind and pass the note.", next: "fn-pass", harmony: -1 },
+    ],
+  ),
+  node(
+    "forwarded-note",
+    "fn-calm",
+    "Bramble",
+    "The leaf is on the soil, not in the next hand. One breath makes the no easier to say.",
+    [
+      {
+        label: "I won't pass a note that hurts someone who isn't here.",
+        next: "fn-bloom",
+        skills: [S.BOUNDARIES, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "forwarded-note",
+    "fn-bloom",
+    "Bramble",
+    "The unkind note stops with you. Robin keeps a choice they never got to make. A boundary can protect someone who is not in the circle.",
+    [],
+    "bloom",
+  ),
+  node(
+    "forwarded-note",
+    "fn-tangle",
+    "Bramble",
+    "The note traveled, and Robin did not get a say. If this were real, telling a keeper and Robin would be the next brave step. You can practice the stop again.",
+    [],
+    "tangle",
+  ),
+];
+
 export const SCENARIOS: Scenario[] = [
   {
     scenarioId: "watering-can",
@@ -1066,6 +1806,51 @@ export const SCENARIOS: Scenario[] = [
     maxGrade: 6,
     entryNodeId: "ph-start",
   },
+  {
+    scenarioId: "last-seed",
+    title: "The Last Sunflower",
+    blurb: "One seed packet is left, and two hands reach for it.",
+    skillFocus: SkillType.CONFLICT_RESOLUTION,
+    minGrade: 1,
+    maxGrade: 6,
+    entryNodeId: "ls-start",
+  },
+  {
+    scenarioId: "loud-game",
+    title: "Too Much Noise",
+    blurb: "A clap game is fun for them and too loud for your ears.",
+    skillFocus: SkillType.BOUNDARIES,
+    minGrade: 1,
+    maxGrade: 6,
+    entryNodeId: "lg-start",
+  },
+  {
+    scenarioId: "chosen-name",
+    title: "The Name I Chose",
+    blurb: "An old joke name sticks, and your garden name gets left behind.",
+    skillFocus: SkillType.EMOTIONAL_LITERACY,
+    minGrade: 3,
+    maxGrade: 6,
+    entryNodeId: "cn-start",
+  },
+  {
+    scenarioId: "gate-watch",
+    title: "Who Watches the Gate",
+    blurb: "Three jobs are at the gate, and one friend has none.",
+    skillFocus: SkillType.TEAMWORK,
+    minGrade: 3,
+    maxGrade: 6,
+    entryNodeId: "gw-start",
+  },
+  {
+    scenarioId: "forwarded-note",
+    title: "The Forwarded Note",
+    blurb: "A hurtful note about Robin is handed to you to pass on.",
+    skillFocus: SkillType.BOUNDARIES,
+    minGrade: 4,
+    maxGrade: 6,
+    entryNodeId: "fn-start",
+  },
 ];
 
 export const NODES: ScenarioNode[] = [
@@ -1075,6 +1860,11 @@ export const NODES: ScenarioNode[] = [
   ...planNodes,
   ...noteNodes,
   ...photoNodes,
+  ...seedNodes,
+  ...noiseNodes,
+  ...nameNodes,
+  ...gateNodes,
+  ...noteNodesForward,
 ];
 
 export const EMOTIONS: Emotion[] = [
