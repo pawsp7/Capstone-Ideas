@@ -75,9 +75,33 @@ describe("garden content", () => {
   it("hides older stories from the youngest garden", () => {
     const titles = visibleScenarios("1-2").map((scenario) => scenario.scenarioId);
     expect(titles).toContain("watering-can");
+    expect(titles).toContain("last-seed");
+    expect(titles).toContain("loud-game");
+    expect(titles).toContain("hard-bump");
+    expect(titles).toContain("tears-path");
     expect(titles).not.toContain("photo-leaf");
     expect(titles).not.toContain("whatever-note");
-    expect(visibleScenarios("5-6").map((scenario) => scenario.scenarioId)).toContain("photo-leaf");
+    expect(titles).not.toContain("chosen-name");
+    expect(titles).not.toContain("gate-watch");
+    expect(titles).not.toContain("forwarded-note");
+    expect(titles).not.toContain("the-dare");
+    expect(titles).not.toContain("too-soft");
+    expect(titles).not.toContain("after-yell");
+    const older = visibleScenarios("5-6").map((scenario) => scenario.scenarioId);
+    expect(older).toEqual(
+      expect.arrayContaining([
+        "photo-leaf",
+        "chosen-name",
+        "gate-watch",
+        "forwarded-note",
+        "last-seed",
+        "hard-bump",
+        "tears-path",
+        "the-dare",
+        "too-soft",
+        "after-yell",
+      ]),
+    );
   });
 
   it("describes a creature with body cues", () => {
