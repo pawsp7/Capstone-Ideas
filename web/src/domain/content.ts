@@ -1751,6 +1751,887 @@ const noteNodesForward = [
   ),
 ];
 
+const bumpNodes = [
+  node(
+    "hard-bump",
+    "hb-start",
+    "Bramble",
+    "Cedar, a boy who loves to race, wants to win. He bumps you hard off the path. Your shoulder stings. He is still running.",
+    [
+      {
+        label: "Cedar, that bump hurt. Keep your body to yourself.",
+        next: "hb-line",
+        skills: [S.BOUNDARIES, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Shove him back.", next: "hb-back", harmony: -1 },
+      { label: "Say nothing and keep racing. Your face feels hot.", next: "hb-quiet" },
+      {
+        label: "I need a keeper. That was too hard.",
+        next: "hb-holt",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "I like racing with you. I don't like being shoved.",
+        next: "hb-both",
+        skills: [S.CONFLICT_RESOLUTION, S.BOUNDARIES],
+        harmony: 2,
+        minGrade: 3,
+      },
+      {
+        label: "Feel your feet, then tell Cedar the bump was too hard.",
+        next: "hb-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-line",
+    "Cedar",
+    '"I was just playing. I play hard." Cedar stops. He looks sorry and also proud of being fast.',
+    [
+      {
+        label: "Play can be fast and still not shove. Race me on our own paths.",
+        next: "hb-bloom",
+        skills: [S.BOUNDARIES, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Playing hard is not an excuse.", next: "hb-sharp", harmony: -1 },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-sharp",
+    "Bramble",
+    "Cedar looks at his shoes. The shove has stopped. Your voice is still sharp.",
+    [
+      {
+        label: "I'm mad, and I still want a fair race. No more shoves.",
+        next: "hb-bloom",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      {
+        label: "I need space from this game today.",
+        next: "hb-space",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      { label: "Stay angry and say nothing else.", next: "hb-tangle" },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-back",
+    "Cedar",
+    '"Ow. Now we both got shoved." Cedar rubs his arm. Nobody is racing.',
+    [
+      {
+        label: "I shoved back, and that didn't help. I'm sorry. No more bumps.",
+        next: "hb-line",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "You started it.", next: "hb-tangle" },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-quiet",
+    "Bramble",
+    "The race ends. Cedar grins. Your shoulder still remembers the bump, and he does not know.",
+    [
+      {
+        label: "Cedar, I didn't say it during the race. The bump was too hard.",
+        next: "hb-line",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "Tell Keeper Holt what happened.",
+        next: "hb-holt",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      { label: "Pretend it was fine.", next: "hb-tangle" },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-holt",
+    "Keeper Holt",
+    "Keeper Holt is a man with muddy boots. He kneels so he can hear you. \"Thank you for telling me. A strong body still asks before it bumps someone. Want to practice the sentence, or want me beside you?\"",
+    [
+      {
+        label: "Come with me. I want to say it to Cedar.",
+        next: "hb-line",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "I told you. That's enough for today.",
+        next: "hb-space",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-both",
+    "Cedar",
+    '"I can race without shoving. I forget when I want to win." He waits for the rule.',
+    [
+      {
+        label: "Say it out loud: bodies stay on their own path.",
+        next: "hb-bloom",
+        skills: [S.BOUNDARIES, S.TEAMWORK],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-calm",
+    "Bramble",
+    "Your feet find the path. Cedar has stopped running. There is room for a clear voice.",
+    [
+      {
+        label: "Cedar, the bump was too hard. Race me without shoving.",
+        next: "hb-bloom",
+        skills: [S.BOUNDARIES, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "hard-bump",
+    "hb-bloom",
+    "Bramble",
+    "You and Cedar line up again, each on a path. Being a fast boy and being a careful boy can be the same person. The race starts without a shove.",
+    [],
+    "bloom",
+  ),
+  node(
+    "hard-bump",
+    "hb-space",
+    "Bramble",
+    "You took space, and a keeper knows. You do not have to finish the race today. The garden keeps your turn for later.",
+    [],
+    "repair",
+  ),
+  node(
+    "hard-bump",
+    "hb-tangle",
+    "Bramble",
+    "The path is clear, and the friendship feels bruised. A bump can be repaired with a sentence. You can walk this story again.",
+    [],
+    "tangle",
+  ),
+];
+
+const tearsNodes = [
+  node(
+    "tears-path",
+    "tp-start",
+    "Bramble",
+    "Cedar falls and his eyes fill. A kid says, \"Don't cry. Boys don't do that.\" Cedar's mouth goes tight, like he is trying to put the tears back.",
+    [
+      {
+        label: "Crying is allowed. Cedar, are you hurt?",
+        next: "tp-with",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+      { label: "Laugh, so you don't look soft too.", next: "tp-laugh", harmony: -1 },
+      { label: "Look away and say nothing.", next: "tp-quiet" },
+      {
+        label: "Get Keeper Holt.",
+        next: "tp-holt",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 1,
+      },
+      {
+        label: "That rule is unfair. Boys can cry. Anyone can cry.",
+        next: "tp-rule",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+        minGrade: 3,
+      },
+      {
+        label: "Take a breath, then tell Cedar his tears are welcome.",
+        next: "tp-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-with",
+    "Cedar",
+    '"My knee stings. I didn\'t want them to see." He blinks hard. The tears are still there.',
+    [
+      {
+        label: "I see you. We can rinse it with water. You can cry while we walk.",
+        next: "tp-bloom",
+        skills: [S.EMOTIONAL_LITERACY, S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "Yeah, but don't cry so much.", next: "tp-small", harmony: -1 },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-small",
+    "Cedar",
+    "Cedar flinches, as if the tears just got louder by being measured.",
+    [
+      {
+        label: "I was wrong to measure your tears. I'm staying.",
+        next: "tp-bloom",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+      { label: "Whatever.", next: "tp-tangle" },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-laugh",
+    "Bramble",
+    "Someone laughs with you. Cedar turns his face to the ferns. The knee is still scraped.",
+    [
+      {
+        label: "I laughed, and that was unkind. Crying is allowed. I'm here.",
+        next: "tp-with",
+        skills: [S.EMOTIONAL_LITERACY, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Keep joking.", next: "tp-tangle" },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-quiet",
+    "Bramble",
+    "Cedar sits alone with a tight mouth. The kid who made the rule has already run off.",
+    [
+      {
+        label: "Go back. Say the tears can stay.",
+        next: "tp-with",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 1,
+      },
+      {
+        label: "Ask Keeper Holt to check Cedar's knee.",
+        next: "tp-holt",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 1,
+      },
+      { label: "Leave him there.", next: "tp-tangle" },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-rule",
+    "Cedar",
+    '"They say it all the time." Cedar\'s voice is small. "If I cry, I\'m not a real boy."',
+    [
+      {
+        label: "You are a real boy. You can cry and still be strong. I'll walk with you.",
+        next: "tp-bloom",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-holt",
+    "Keeper Holt",
+    "Holt kneels in the dirt. \"I cry when I am hurt too. It does not make me less of a man. It tells the truth.\" He looks at Cedar. \"Knee first. Then the feeling.\"",
+    [
+      {
+        label: "Stay while Cedar says what hurts.",
+        next: "tp-bloom",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 2,
+      },
+      {
+        label: "You brought Holt. He can sit with Cedar. You may go.",
+        next: "tp-soft",
+        skills: [S.EMOTIONAL_LITERACY],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-calm",
+    "Bramble",
+    "One breath. Cedar is still on the path, trying not to blink.",
+    [
+      {
+        label: "Cedar, your tears can stay. Do you want company?",
+        next: "tp-bloom",
+        skills: [S.EMOTIONAL_LITERACY, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "tears-path",
+    "tp-bloom",
+    "Bramble",
+    "Cedar cries and also gets his knee rinsed. A boy is allowed to hurt and to be cared for. Keeper Holt's boots stay nearby, steady and unashamed.",
+    [],
+    "bloom",
+  ),
+  node(
+    "tears-path",
+    "tp-soft",
+    "Bramble",
+    "You did not have to hold the whole moment. You brought a man who could. Cedar is not alone with the rule.",
+    [],
+    "repair",
+  ),
+  node(
+    "tears-path",
+    "tp-tangle",
+    "Bramble",
+    "Cedar's tears went back underground. The knee still stings. You can return and say crying is allowed. The garden is not ashamed of him.",
+    [],
+    "tangle",
+  ),
+];
+
+const dareNodes = [
+  node(
+    "the-dare",
+    "td-start",
+    "Bramble",
+    "Cedar looks at his friends, then at you. \"Dare you to kick Moss's sprout over. If you won't, you're out.\" Moss is not here to protect the plant.",
+    [
+      {
+        label: "I won't kick someone's plant. We can dare a kind thing instead.",
+        next: "td-no",
+        skills: [S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Kick the sprout so you stay in the group.", next: "td-kick", harmony: -1 },
+      { label: "Laugh and don't answer.", next: "td-freeze" },
+      {
+        label: "I'm getting Keeper Holt. A dare doesn't get to break things.",
+        next: "td-holt",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "Leaving me out hurts. I still won't hurt Moss's work.",
+        next: "td-name",
+        skills: [S.BOUNDARIES, S.EMOTIONAL_LITERACY],
+        harmony: 2,
+        minGrade: 5,
+      },
+      {
+        label: "Feel your feet. Then say no to the dare.",
+        next: "td-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-no",
+    "Cedar",
+    '"I didn\'t want to kick it either. I said the dare so they would think I was brave." His friends are watching.',
+    [
+      {
+        label: "Then we both say no. Brave can mean stopping.",
+        next: "td-bloom",
+        skills: [S.BOUNDARIES, S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "Then you shouldn't have said it.", next: "td-blame", harmony: -1 },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-blame",
+    "Cedar",
+    "Cedar's shoulders drop. \"Yeah. I was scared to be the soft one.\"",
+    [
+      {
+        label: "I'm glad you told the truth. Let's both tell them no.",
+        next: "td-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.TEAMWORK],
+        harmony: 2,
+      },
+      {
+        label: "I need space from this dare.",
+        next: "td-soft",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-kick",
+    "Bramble",
+    "The sprout bends. Dirt spills. Cedar will not look at you. Moss is still away.",
+    [
+      {
+        label: "I did the dare and it was wrong. I'll tell Moss and help replant.",
+        next: "td-fix",
+        skills: [S.BOUNDARIES, S.CONFLICT_RESOLUTION],
+        harmony: 1,
+      },
+      { label: "It was just a plant.", next: "td-tangle" },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-fix",
+    "Moss",
+    "Moss sees the bent sprout. Their face falls. They wait to hear what you will do.",
+    [
+      {
+        label: "I kicked it on a dare. I'm sorry. I'll replant it with you.",
+        next: "td-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Fix it before they understand, and say nothing.", next: "td-tangle" },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-freeze",
+    "Bramble",
+    "Your laugh hangs in the air. The dare is still alive. Someone else's foot shifts toward the sprout.",
+    [
+      {
+        label: "Say the no now, before anyone kicks it.",
+        next: "td-no",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "Leave without a word.",
+        next: "td-soft",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-name",
+    "Cedar",
+    '"I don\'t want out either. I just didn\'t want to be the boy who said no." He stands nearer to you than to the sprout.',
+    [
+      {
+        label: "Saying no is not soft. We say it together.",
+        next: "td-bloom",
+        skills: [S.BOUNDARIES, S.TEAMWORK],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-holt",
+    "Keeper Holt",
+    "Holt folds his arms, not angry, just firm. \"A dare is not a rule. You can refuse and still belong. If they punish you for refusing, you tell me. I will handle that part.\"",
+    [
+      {
+        label: "Come with me while I say no.",
+        next: "td-no",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "I told you. Please watch the sprout.",
+        next: "td-soft",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-calm",
+    "Bramble",
+    "Your feet stay. The sprout is still standing. Cedar is waiting to see what a no looks like.",
+    [
+      {
+        label: "No. I won't kick Moss's plant. I can still be your friend.",
+        next: "td-bloom",
+        skills: [S.BOUNDARIES, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "the-dare",
+    "td-bloom",
+    "Bramble",
+    "The sprout stays in the soil. You and Cedar refused together. A boy can be brave by stopping, and a friend can say no without being thrown out.",
+    [],
+    "bloom",
+  ),
+  node(
+    "the-dare",
+    "td-soft",
+    "Bramble",
+    "You stepped out of the dare. That is a real boundary. If the sprout is still in danger, Holt knows. You can rest.",
+    [],
+    "repair",
+  ),
+  node(
+    "the-dare",
+    "td-tangle",
+    "Bramble",
+    "Moss's work got hurt, or the dare is still loose in the garden. Telling Moss and a keeper is the next brave step. You can practice the no again.",
+    [],
+    "tangle",
+  ),
+];
+
+const softNodes = [
+  node(
+    "too-soft",
+    "ts-start",
+    "Bramble",
+    "A running game is starting. One of the bigger kids says, \"You play too soft. This is for tough kids.\" Cedar wants you in, and he also looks afraid to say so. Gentle boys get this line too.",
+    [
+      {
+        label: "I can play fair. Soft is not a reason to leave someone out.",
+        next: "ts-ask",
+        skills: [S.TEAMWORK, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "Fine. I didn't want to play.", next: "ts-fine" },
+      { label: "Bump into the game to prove you are tough.", next: "ts-prove", harmony: -1 },
+      {
+        label: "If this game is only for tough kids, or only for boys, people get left out.",
+        next: "ts-fair",
+        skills: [S.TEAMWORK, S.EMOTIONAL_LITERACY],
+        harmony: 2,
+        minGrade: 5,
+      },
+      {
+        label: "Breathe, then ask for a rule everyone can play by.",
+        next: "ts-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-ask",
+    "Cedar",
+    '"I want you in. I don\'t like the tough test." He says it quietly, only to you.',
+    [
+      {
+        label: "Then say it with me. Safe bodies, and everyone who wants in can play.",
+        next: "ts-bloom",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "If you want me in, tell them, not just me.", next: "ts-ask2" },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-ask2",
+    "Cedar",
+    "Cedar turns to the group. \"They're in. We play fair. Gentle is allowed.\" His voice shakes, and he stays standing.",
+    [
+      {
+        label: "Thank you. I'll play.",
+        next: "ts-bloom",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+      {
+        label: "I need to skip this game. You still did a brave thing.",
+        next: "ts-space",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-fine",
+    "Bramble",
+    "Your feet stay still. The want to play is still in your chest. \"Fine\" hid it.",
+    [
+      {
+        label: "I do want to play. The 'too soft' line is the problem.",
+        next: "ts-ask",
+        skills: [S.BOUNDARIES],
+        harmony: 1,
+      },
+      {
+        label: "Start a different game with Lumen, where gentle counts.",
+        next: "ts-space",
+        skills: [S.TEAMWORK],
+        harmony: 1,
+      },
+      { label: "Stay and feel left out.", next: "ts-tangle" },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-prove",
+    "Bramble",
+    "You bump a runner. The game stops. You look tough, and someone looks startled. Cedar winces.",
+    [
+      {
+        label: "I was trying to look tough. I'm sorry. I want a fair game, not a hard one.",
+        next: "ts-ask",
+        skills: [S.CONFLICT_RESOLUTION, S.TEAMWORK],
+        harmony: 2,
+      },
+      { label: "See? I am tough.", next: "ts-tangle" },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-fair",
+    "Cedar",
+    '"It is not supposed to be boys only. And the gentle boys get told to leave too. I hate that." He looks at the bigger kid, then at you.',
+    [
+      {
+        label: "Then the rule is: anyone who plays fair can play. Boys included. Everyone included.",
+        next: "ts-bloom",
+        skills: [S.TEAMWORK],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-calm",
+    "Bramble",
+    "The whistle in your chest slows down. The game has not started. There is time to name a rule.",
+    [
+      {
+        label: "I'll play if we keep bodies safe and let gentle kids in too.",
+        next: "ts-bloom",
+        skills: [S.TEAMWORK, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "too-soft",
+    "ts-bloom",
+    "Bramble",
+    "The game starts with a rule instead of a test. Cedar plays beside you. Tough and gentle both get a place on the path.",
+    [],
+    "bloom",
+  ),
+  node(
+    "too-soft",
+    "ts-space",
+    "Bramble",
+    "You chose a game, or a rest, that did not make you prove you were hard. Belonging does not require a bruise.",
+    [],
+    "repair",
+  ),
+  node(
+    "too-soft",
+    "ts-tangle",
+    "Bramble",
+    "Someone is still outside the game. The tough test did not make anybody safer. You can try a fair-rule sentence next time.",
+    [],
+    "tangle",
+  ),
+];
+
+const yellNodes = [
+  node(
+    "after-yell",
+    "ay-start",
+    "Bramble",
+    "You yelled \"Move!\" at Cedar. His eyes went wide and he got small. The yell already happened. He looks like he is waiting to see if more is coming.",
+    [
+      {
+        label: "I yelled and it scared you. I'm sorry. I'll say it in a calm voice.",
+        next: "ay-sorry",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "You made me yell.", next: "ay-blame", harmony: -1 },
+      { label: "Walk away and don't look at him.", next: "ay-leave" },
+      {
+        label: "Find Keeper Holt and tell him I yelled.",
+        next: "ay-holt",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 1,
+      },
+      {
+        label: "I was angry. Anger can visit. Scaring you was not fair.",
+        next: "ay-anger",
+        skills: [S.EMOTIONAL_LITERACY, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+        minGrade: 5,
+      },
+      {
+        label: "Put a hand on your belly, then apologize with no excuse.",
+        next: "ay-calm",
+        skills: [S.MINDFULNESS],
+        harmony: 1,
+        requiresCalm: true,
+      },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-sorry",
+    "Cedar",
+    '"I didn\'t know if you were going to hit me. You were so loud." He stays a step back. He is a boy who got scared. That is allowed.',
+    [
+      {
+        label: "I will not hit you. I was too loud. I need space on the path, and I can ask.",
+        next: "ay-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.BOUNDARIES],
+        harmony: 2,
+      },
+      { label: "I wouldn't hit you. Don't be a baby.", next: "ay-baby", harmony: -1 },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-baby",
+    "Cedar",
+    "Cedar steps back again. The sorry got smaller than the new unkind word.",
+    [
+      {
+        label: "That was another unkind word. I'm sorry. You can have space from me.",
+        next: "ay-bloom",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "Forget it.", next: "ay-tangle" },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-blame",
+    "Cedar",
+    '"I just stood there." His voice is thin. He did not make the yell.',
+    [
+      {
+        label: "You're right. The yell was mine. I'm sorry.",
+        next: "ay-sorry",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+      { label: "It's still your fault.", next: "ay-tangle" },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-leave",
+    "Bramble",
+    "Cedar stays small on the path. Leaving skipped the repair. He does not know if you are done.",
+    [
+      {
+        label: "Go back and apologize.",
+        next: "ay-sorry",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 1,
+      },
+      {
+        label: "Ask Holt to help you say it.",
+        next: "ay-holt",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 1,
+      },
+      { label: "Stay away and call it done.", next: "ay-tangle" },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-holt",
+    "Keeper Holt",
+    "Holt nods, man to kid, with no joke in it. \"Anger is a true feeling. I get loud too. Scaring someone is the part I have to repair. Want to practice the sorry with me?\"",
+    [
+      {
+        label: "Practice, then tell Cedar.",
+        next: "ay-sorry",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 1,
+      },
+      {
+        label: "Come with me while I tell him.",
+        next: "ay-bloom",
+        skills: [S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-anger",
+    "Cedar",
+    "Cedar nods a little. \"I was scared. I'm still mad that you yelled.\"",
+    [
+      {
+        label: "You can be mad. Next time I'll ask for space before my voice gets big.",
+        next: "ay-bloom",
+        skills: [S.EMOTIONAL_LITERACY, S.CONFLICT_RESOLUTION],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-calm",
+    "Bramble",
+    "Your hand feels your belly move. Cedar is still a step away. The sorry does not need an excuse.",
+    [
+      {
+        label: "I yelled. It scared you. I'm sorry. I will not do the next part louder.",
+        next: "ay-bloom",
+        skills: [S.CONFLICT_RESOLUTION, S.MINDFULNESS],
+        harmony: 2,
+      },
+    ],
+  ),
+  node(
+    "after-yell",
+    "ay-bloom",
+    "Bramble",
+    "Cedar's shoulders come down. You named the yell without blaming him. A boy can be scared, and the person who yelled can become someone safe again.",
+    [],
+    "bloom",
+  ),
+  node(
+    "after-yell",
+    "ay-tangle",
+    "Bramble",
+    "Cedar is still braced for more. The yell can be repaired. If this feeling is too big, Keeper Holt can stand with both of you.",
+    [],
+    "tangle",
+  ),
+];
+
 export const SCENARIOS: Scenario[] = [
   {
     scenarioId: "watering-can",
@@ -1851,6 +2732,51 @@ export const SCENARIOS: Scenario[] = [
     maxGrade: 6,
     entryNodeId: "fn-start",
   },
+  {
+    scenarioId: "hard-bump",
+    title: "The Hard Bump",
+    blurb: "Cedar races hard and bumps you off the path.",
+    skillFocus: SkillType.CONFLICT_RESOLUTION,
+    minGrade: 1,
+    maxGrade: 6,
+    entryNodeId: "hb-start",
+  },
+  {
+    scenarioId: "tears-path",
+    title: "Tears on the Path",
+    blurb: "Cedar falls, and someone tells him boys don't cry.",
+    skillFocus: SkillType.EMOTIONAL_LITERACY,
+    minGrade: 1,
+    maxGrade: 6,
+    entryNodeId: "tp-start",
+  },
+  {
+    scenarioId: "the-dare",
+    title: "The Dare",
+    blurb: "A dare asks you to kick Moss's sprout or be left out.",
+    skillFocus: SkillType.BOUNDARIES,
+    minGrade: 3,
+    maxGrade: 6,
+    entryNodeId: "td-start",
+  },
+  {
+    scenarioId: "too-soft",
+    title: "Not Tough Enough",
+    blurb: "A game says gentle kids, including gentle boys, cannot play.",
+    skillFocus: SkillType.TEAMWORK,
+    minGrade: 3,
+    maxGrade: 6,
+    entryNodeId: "ts-start",
+  },
+  {
+    scenarioId: "after-yell",
+    title: "After the Yell",
+    blurb: "You already yelled, and Cedar got small.",
+    skillFocus: SkillType.CONFLICT_RESOLUTION,
+    minGrade: 3,
+    maxGrade: 6,
+    entryNodeId: "ay-start",
+  },
 ];
 
 export const NODES: ScenarioNode[] = [
@@ -1865,6 +2791,11 @@ export const NODES: ScenarioNode[] = [
   ...nameNodes,
   ...gateNodes,
   ...noteNodesForward,
+  ...bumpNodes,
+  ...tearsNodes,
+  ...dareNodes,
+  ...softNodes,
+  ...yellNodes,
 ];
 
 export const EMOTIONS: Emotion[] = [

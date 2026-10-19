@@ -608,6 +608,8 @@ export function speakerKind(speaker: string, avatarRef: string): SpriteKind {
   if (speaker === "Pip") return "pip";
   if (speaker === "Moss") return "moss";
   if (speaker === "Lumen") return "lumen";
+  if (speaker === "Cedar") return "pinekit";
+  if (speaker === "Keeper Holt") return "emberbud";
   if (speaker === "You") return isKind(avatarRef) ? avatarRef : "bramble";
   return "bramble";
 }
